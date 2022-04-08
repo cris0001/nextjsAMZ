@@ -142,7 +142,7 @@ function AdminUsers() {
                                 <Button size="small" variant="contained">
                                   Edit
                                 </Button>
-                              </NextLink>{" "}
+                              </NextLink>
                               <Button onClick={() => handleDeleteUser(user._id)} size="small" variant="contained">
                                 Delete
                               </Button>

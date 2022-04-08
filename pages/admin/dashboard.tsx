@@ -49,16 +49,11 @@ function AdminDashboard() {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const { data } = await axios.get(
-          "/api/admin/summary",
-
-          {
-            headers: {
-              authorization: `User ${userInfo?.token}`,
-            },
-          }
-        );
-
+        const { data } = await axios.get("/api/admin/summary", {
+          headers: {
+            authorization: `User ${userInfo?.token}`,
+          },
+        });
         setSummary(data);
         setLoading(false);
       } catch (err) {

@@ -49,7 +49,7 @@ const Payment: NextPage = () => {
       <CheckoutProgress activeStep={2} />
       <form className={classes.form} onSubmit={handleSubmit}>
         <Typography component="h1" variant="h1">
-          Payment method
+          payment method
         </Typography>
         <List>
           <ListItem>

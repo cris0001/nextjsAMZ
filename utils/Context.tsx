@@ -41,6 +41,9 @@ const AppContextProvider = ({ children }: { children: React.ReactNode }) => {
   );
 
   const handleAddToCart = async (product: Item): Promise<void> => {
+    if (!userInfo) {
+      return;
+    }
     const { data } = await axios.get(`/api/products/${product._id}`);
     if (data.countInStock <= 0) {
       window.alert("out of stock");
