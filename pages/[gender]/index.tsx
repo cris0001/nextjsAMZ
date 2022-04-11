@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import type { GetServerSideProps, NextPage } from "next";
 import dynamic from "next/dynamic";
 import { CardActionArea, Grid, Card, CardMedia, Typography, CardContent, CardActions, Button } from "@material-ui/core";
@@ -11,6 +12,21 @@ import axios from "axios";
 
 const ProductsGender: NextPage<{ products: any[] }> = ({ products }) => {
   const { handleAddToCart } = useAppContext();
+  const [input, setInput] = useState("");
+  const [filtered, setFiltered] = useState([]);
+
+  useEffect(() => {
+    const filterProducts = () => {
+      const tmpData = [...products];
+      if (input === "") {
+        setFiltered(tmpData);
+      } else {
+        let temp = tmpData.filter((item) => item.category.toLowerCase().includes(input));
+        setFiltered(temp);
+      }
+    };
+    filterProducts();
+  }, [input]); //eslint-disable-line
 
   return (
     // <Layout title="Shopping Cart">
@@ -38,8 +54,9 @@ const ProductsGender: NextPage<{ products: any[] }> = ({ products }) => {
     //   </Grid>
     // </Layout>
     <Layout title="Product by gender">
+      <input type="text" onChange={(e) => setInput(e.target.value)} />
       <Grid container spacing={3}>
-        {products.map((prod) => (
+        {filtered.map((prod) => (
           <Grid item md={4} key={prod.id}>
             <Card>
               <NextLink href={`/product/${prod.name}`} passHref>
@@ -71,6 +88,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   // const products: Item[] = res2.map(db.convertDocToObj);
   // await db.disconnect();
   const products = await axios.get(`https://retoolapi.dev/YDd2Jo/data?gender=${params.gender}`).then((res) => res.data);
+
   return {
     props: {
       products,
